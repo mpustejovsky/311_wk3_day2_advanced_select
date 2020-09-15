@@ -48,17 +48,18 @@ Where state='TX';
 3. Find the MIN first_name, the county, and a count of all users in that county for counties with more than 10 users. There will be four results. List the last one. 
   * Hint: MIN, COUNT, JOIN, GROUP BY, HAVING
 
-          SELECT 
-            usersAddress.county,
-            count(users.first_name),
-            min(users.first_name)
-              
-          FROM admin.users
-          join admin.usersAddress
-          on users.id=usersAddress.id
+      SELECT 
+        ua.county as location,
+        count(u.first_name)as numbTimes,
+        min(u.first_name) as minName
+          
+      FROM admin.users as u
+      join admin.usersAddress as ua
+      on u.id=ua.id
 
-          group by county
-          having count(usersAddress.county)>10;
+      group by 1
+      having count(ua.county)>10
+      order by count(u.first_name) desc
 
 
 ## Query Responses
@@ -84,9 +85,9 @@ Where state='TX';
   * county total: 11
 
 List of all 4 with 10 or more below:
-Cook	13	Carmela
 Los Angeles	18	Benton
 New York	14	Alishia
+Cook	13	Carmela
 Orange	11	Avery
 
 ## Summary
